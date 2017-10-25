@@ -44,6 +44,8 @@ public class MetalBar_CS : MonoBehaviour {
 			mag_trans = col.gameObject;
 			loose = false;
 			trans.gameObject.GetComponent<MeshRenderer> ().material = not_loose_mat;
+
+			mag_trans.gameObject.GetComponent<Magnet_CS> ().followers.Add (trans.gameObject);
 		}
 	}
 

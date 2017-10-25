@@ -545,6 +545,9 @@ MonoBehaviour:
   throwing: 0
   is_moving: 0
   dismissed: 0
+  followers: []
+  dismissed_mat: {fileID: 2100000, guid: b329d9f0ed20446f2aa3ae0444333085, type: 2}
+  not_dismissed_mat: {fileID: 2100000, guid: 7d39c26a8f3d143758223eec11e2432a, type: 2}
 --- !u!1 &1999657798
 GameObject:
   m_ObjectHideFlags: 0
