@@ -62,13 +62,19 @@ public class GameControoler_CS : MonoBehaviour {
 			if(Physics.Raycast(ray,out hit,1000.0f)){
 				if(hit.collider.gameObject.tag == "PhysicalFloor"){
 					var posi = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-					Instantiate (follower,new Vector3(posi.x,10,posi.z),Quaternion.identity);
+					Instantiate (follower,new Vector3(posi.x,0,posi.z),Quaternion.identity);
 				}
 			}
 		}
 
 		if(Input.GetKeyDown(KeyCode.Q)){
-			player.GetComponent<Magnet_CS> ().dismissed = true;
+			player.GetComponent<Magnet_CS> ().dismissed = !player.GetComponent<Magnet_CS> ().dismissed;
+
+			if(player.GetComponent<Magnet_CS> ().dismissed){
+				player.GetComponent<MeshRenderer> ().material = player.GetComponent<Magnet_CS> ().dismissed_mat;
+			}else{
+				player.GetComponent<MeshRenderer> ().material = player.GetComponent<Magnet_CS> ().not_dismissed_mat;
+			}
 		}
 	}
 }
