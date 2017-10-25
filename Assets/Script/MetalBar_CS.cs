@@ -26,7 +26,7 @@ public class MetalBar_CS : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		if(in_zone){
+		if(in_zone && mag_trans.GetComponent<Magnet_CS>().dismissed){
 			Vector3 direction = (mag_trans.GetComponent<Transform> ().position - trans.position) * force;
 			float distance = Vector3.Distance (mag_trans.GetComponent<Transform> ().position,trans.position);
 

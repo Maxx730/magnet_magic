@@ -11,6 +11,9 @@ public class Magnet_CS : MonoBehaviour {
 	public bool is_moving = false;
 	public bool dismissed = false;
 
+	public ArrayList followers();
+		
+	//PUBLIC MATERIALS
 	public Material dismissed_mat;
 	public Material not_dismissed_mat;
 
