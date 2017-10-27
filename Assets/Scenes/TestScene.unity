@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 254065978}
   - component: {fileID: 254065977}
   - component: {fileID: 254065976}
+  - component: {fileID: 254065980}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -265,8 +266,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 26.71629
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 12.574212
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -288,12 +289,24 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 254065975}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.4, y: 64.25, z: 0.9}
+  m_LocalPosition: {x: 0.99, y: 169.6, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &254065980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 254065975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7927d2bf61594add99aab79fad34d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focused_character: {fileID: 1815205238}
 --- !u!1 &1015107352
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +540,7 @@ Transform:
   m_Children:
   - {fileID: 1015107353}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1815205244
 MonoBehaviour:
@@ -575,7 +588,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1999657800
 MonoBehaviour:
@@ -589,8 +602,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1815205238}
-  follower: {fileID: 1505413421566298, guid: 7d7953f3335be416b928896cc82e2191, type: 2}
-  player_accel: 5
+  follower: {fileID: 1405472153211820, guid: 7d7953f3335be416b928896cc82e2191, type: 2}
+  player_accel: 15
   rot_speed: 20
   for_speed: 30
   back_speed: 30
@@ -658,5 +671,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}

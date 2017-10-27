@@ -25,9 +25,7 @@ public class Magnet_CS : MonoBehaviour {
 		trans = transform;
 	}
 
-	void OnTriggerEnter(Collider enter){
-		if(enter.gameObject.tag == "MetalBar"){
-
-		}
+	void Update(){
+		
 	}
 }

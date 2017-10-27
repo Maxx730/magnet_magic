@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\CameraController.cs" />
      <Compile Include="Assets\Script\GameControoler_CS.cs" />
      <Compile Include="Assets\Script\Magnet_CS.cs" />
      <Compile Include="Assets\Script\MetalBar_CS.cs" />

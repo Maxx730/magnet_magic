@@ -26,6 +26,8 @@ public class GameControoler_CS : MonoBehaviour {
 		//SET IS MOVING TO TRUE BASED ON ANY KEY DOWN EVENTS.
 		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)){
 			player.GetComponent<Magnet_CS> ().is_moving = true;
+		}else{
+			player.GetComponent<Magnet_CS> ().is_moving = false;
 		}
 
 		if(player.GetComponent<Magnet_CS> ().is_moving && player.GetComponent<Rigidbody> ().velocity.x > (-1f*for_speed) && player.GetComponent<Rigidbody> ().velocity.x < for_speed && player.GetComponent<Rigidbody> ().velocity.z > (-1*back_speed) && player.GetComponent<Rigidbody> ().velocity.z < for_speed){
@@ -71,9 +73,9 @@ public class GameControoler_CS : MonoBehaviour {
 			player.GetComponent<Magnet_CS> ().dismissed = !player.GetComponent<Magnet_CS> ().dismissed;
 
 			if(player.GetComponent<Magnet_CS> ().dismissed){
-				player.GetComponent<MeshRenderer> ().material = player.GetComponent<Magnet_CS> ().dismissed_mat;
-			}else{
 				player.GetComponent<MeshRenderer> ().material = player.GetComponent<Magnet_CS> ().not_dismissed_mat;
+			}else{
+				player.GetComponent<MeshRenderer> ().material = player.GetComponent<Magnet_CS> ().dismissed_mat;
 			}
 		}
 	}
