@@ -22,6 +22,7 @@ public class GameControoler_CS : MonoBehaviour {
 	void Update () {
 		Magnet_CS player_script = player.GetComponent<Magnet_CS> ();
 		Transform player_trans = player.GetComponent<Transform> ();
+		Transform formation = player_script.GetComponent<Magnet_CS>().formation.transform;
 
 		//GRAB THE PLAYER ROTATION FIRST BEFORE MAKING THE CALCULATIONS.
 		Quaternion rot = player.GetComponent<Transform> ().rotation;
@@ -76,6 +77,8 @@ public class GameControoler_CS : MonoBehaviour {
 		//SET THE NEW VALUES TO THE PLAYERS POSITION AND ROTATION.
 		rot = Quaternion.Euler (0,y,z);
 		player_trans.rotation = rot;
+		Debug.Log (formation.gameObject.GetComponent<BoxCollider> ().bounds.size);
+		formation.position = player_trans.position;
 
 		//IF THEY RIGHT MOUSE BUTTON IS CLICKED THEN WE WANT TO SPAWN A FOLLOWER PREFAB WHERE IT HAS BEEN CLICKED.
 		if(Input.GetMouseButtonDown(1)){
@@ -108,9 +111,9 @@ public class GameControoler_CS : MonoBehaviour {
 
 		//LOGIC FOR SHOWING AND CHANGING THE CURRENT FORMATION.
 		if(Input.GetKey(KeyCode.E)){
-			player.transform.GetChild (1).GetComponent<Transform>().GetChild (0).gameObject.SetActive (true);
+			player.GetComponent<Magnet_CS> ().formation.SetActive (true);
 		}else{
-			player.transform.GetChild (1).GetComponent<Transform>().GetChild (0).gameObject.SetActive (false);
+			player.GetComponent<Magnet_CS> ().formation.SetActive (false);
 		}
 	}
 }

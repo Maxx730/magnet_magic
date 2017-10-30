@@ -18,12 +18,13 @@ public class MetalBar_CS : MonoBehaviour {
 	private Rigidbody rigid;
 
 	void Awake(){
-		mag_trans = GameObject.Find ("CenterMagnet");
+		mag_trans = GameObject.Find ("Player");
 		trans = transform;
 		rigid = trans.GetComponent<Rigidbody> ();
 	}
 
 	void FixedUpdate(){
+		Transform formation = mag_trans.GetComponent<Magnet_CS> ().formation.transform;
 		Transform player_pos = mag_trans.GetComponent<Transform>();
 		Magnet_CS player_script = mag_trans.GetComponent<Magnet_CS> ();
 		Collider col = transform.GetChild(0).gameObject.GetComponent<SphereCollider> ();
@@ -32,8 +33,6 @@ public class MetalBar_CS : MonoBehaviour {
 		//AND FOLLOW THE PLAYER IF THE PLAYER IS NEAR.
 		if(!player_script.dismissed){
 			if(col.bounds.Contains(player_pos.position)){
-				Debug.Log ("Player inside of bounds!");
-
 				//SET MATERIAL
 				trans.gameObject.GetComponent<MeshRenderer> ().material = not_loose_mat;
 
