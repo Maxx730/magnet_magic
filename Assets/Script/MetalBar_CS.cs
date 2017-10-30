@@ -18,58 +18,44 @@ public class MetalBar_CS : MonoBehaviour {
 	private Rigidbody rigid;
 
 	void Awake(){
+		mag_trans = GameObject.Find ("CenterMagnet");
 		trans = transform;
 		rigid = trans.GetComponent<Rigidbody> ();
 	}
 
 	void FixedUpdate(){
-		//IF THE FOLLOWER IS WITHIN RANGE OF THE PLAYER AND THE PLAYER HAS NOT DIMISSED
-		//FOLLOWERS THEN SET THE UNITS MATERIAL TO FOLLOWING AND HAVE THE UNIT FOLLOW 
-		//THE PLAYER.
-		if(in_zone && !mag_trans.GetComponent<Magnet_CS>().dismissed){
-			//SET MATERIAL
-			trans.gameObject.GetComponent<MeshRenderer> ().material = not_loose_mat;
+		Transform player_pos = mag_trans.GetComponent<Transform>();
+		Magnet_CS player_script = mag_trans.GetComponent<Magnet_CS> ();
+		Collider col = transform.GetChild(0).gameObject.GetComponent<SphereCollider> ();
 
-			Quaternion _look;
-			Vector3 _dir;
-			float _dist;
+		//IF THE DISMISSED BOOLEAN IS SET TO FALSE, THEN CHECK WHAT IS INSIDE THE COLLIDER
+		//AND FOLLOW THE PLAYER IF THE PLAYER IS NEAR.
+		if(!player_script.dismissed){
+			if(col.bounds.Contains(player_pos.position)){
+				Debug.Log ("Player inside of bounds!");
 
-			_dir = (mag_trans.GetComponent<Transform> ().position - trans.position).normalized;
-			_look = Quaternion.LookRotation (_dir);
-			_dist = Vector3.Distance (trans.position,mag_trans.GetComponent<Transform>().position);
+				//SET MATERIAL
+				trans.gameObject.GetComponent<MeshRenderer> ().material = not_loose_mat;
 
-			trans.rotation = Quaternion.Slerp(trans.rotation, _look, Time.deltaTime * 10f);
+				//LOGIC FOR FOLLOWING THE PLAYER WHEN THE UNITS HAVE NOT BEEN
+				//DISMISSED ETC.
+				Quaternion _look;
+				Vector3 _dir;
+				float _dist;
 
-			if(_dist > 6f){
-				trans.position += transform.forward * 10F * Time.deltaTime;
+				_dir = (mag_trans.GetComponent<Transform> ().position - trans.position).normalized;
+				_look = Quaternion.LookRotation (_dir);
+				_dist = Vector3.Distance (trans.position,mag_trans.GetComponent<Transform>().position);
+
+				trans.rotation = Quaternion.Slerp(trans.rotation, _look, Time.deltaTime * 10f);
+
+				if(_dist > 6f){
+					trans.position += transform.forward * 10F * Time.deltaTime;
+				}
 			}
 		}else{
-			trans.gameObject.GetComponent<MeshRenderer> ().material = loose_mat;
-		}
-	}
-
-	//WHEN THERE IS A HITBOX TRIGGER CHECK IF THE HIT IS THE USER, IF SO THEN SET 
-	//IN ZONE TO TRUE AND 
-	void OnTriggerEnter(Collider col){
-		if(col.gameObject.tag == "Magnet"){
-			in_zone = true;
-			mag_trans = col.gameObject;
-
-			//CHANGE THE UNIT MATERIAL AND ADD TO THE LIST OF FOLLOWERS.
-			trans.gameObject.GetComponent<MeshRenderer> ().material = not_loose_mat;
-			mag_trans.gameObject.GetComponent<Magnet_CS> ().followers.Add (trans.gameObject);
-		}
-	}
-
-	//IF THE UNIT GETS TOO FAR AWAY IT WILL NO LONGER BE FOLLOWING THE PLAYER.
-	void OnTriggerExit(Collider col){
-		if(col.gameObject.tag == "Magnet"){
-			in_zone = false;
-
-			//SET THE MATERIAL TO A NOT FOCUSED VALUE.
-			trans.gameObject.GetComponent<MeshRenderer> ().material = loose_mat;
-			//STOP THE UNIT FROM MOVING ANY MORE.
-			rigid.velocity = new Vector3 (0, 0, 0);
+			//SET MATERIAL
+			trans.gameObject.GetComponent<MeshRenderer> ().material = loose_mat;			
 		}
 	}
 }

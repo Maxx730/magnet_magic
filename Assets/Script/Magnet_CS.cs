@@ -7,10 +7,13 @@ public class Magnet_CS : MonoBehaviour {
 	//PUBLIC VARIABLES
 	public Vector3 target;
 	public float stop_distance = 3f;
-	public bool throwing = false;
 	public bool is_moving = false;
+	public bool is_leaning = false;
 	public bool dismissed = false;
 
+	public int follow_amount;
+	public GameObject formation;
+	public List<GameObject> formations;
 	public List<GameObject> followers;
 		
 	//PUBLIC MATERIALS
@@ -26,6 +29,6 @@ public class Magnet_CS : MonoBehaviour {
 	}
 
 	void Update(){
-		
+		follow_amount = followers.Count;
 	}
 }

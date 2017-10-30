@@ -15,43 +15,67 @@ public class GameControoler_CS : MonoBehaviour {
 	//MAX SPEED THE PLAYER IS ALLOWED TO TRAVEL AT.
 	public float for_speed = 10f;
 	public float back_speed = 10f;
-	public float left_right_speed = 10f;
+
+	public float max_angle = 30f;
 
 	// Update is called once per frame
 	void Update () {
+		Magnet_CS player_script = player.GetComponent<Magnet_CS> ();
+		Transform player_trans = player.GetComponent<Transform> ();
+
 		//GRAB THE PLAYER ROTATION FIRST BEFORE MAKING THE CALCULATIONS.
 		Quaternion rot = player.GetComponent<Transform> ().rotation;
 		float y = rot.eulerAngles.y;
+		float z = rot.eulerAngles.z;
 
 		//SET IS MOVING TO TRUE BASED ON ANY KEY DOWN EVENTS.
-		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)){
-			player.GetComponent<Magnet_CS> ().is_moving = true;
+		//SET MOVING TO TRUE IF THE PLAYER IS GOING FORWARDS OR BACKWARDS.
+		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)){
+			player_script.is_moving = true;
 		}else{
-			player.GetComponent<Magnet_CS> ().is_moving = false;
+			player_script.is_moving = false;
 		}
 
-		if(player.GetComponent<Magnet_CS> ().is_moving && player.GetComponent<Rigidbody> ().velocity.x > (-1f*for_speed) && player.GetComponent<Rigidbody> ().velocity.x < for_speed && player.GetComponent<Rigidbody> ().velocity.z > (-1*back_speed) && player.GetComponent<Rigidbody> ().velocity.z < for_speed){
+		//CHECK IF EITHER OF THE TURNING BUTTONS ARE BEING PRESSED AND SET
+		//THE LEANING BOOLEAN TO TRUE IF SO.
+		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)){
+			player_script.is_leaning = true;
+		}else{
+			player_script.is_leaning = false;
+		}
+
+
+		//BACKWARDS AND FORWARDS LOGIC GOES HERE.
+		if(player_script.is_moving && player.GetComponent<Rigidbody> ().velocity.x > (-1f*for_speed) && player.GetComponent<Rigidbody> ().velocity.x < for_speed && player.GetComponent<Rigidbody> ().velocity.z > (-1*back_speed) && player.GetComponent<Rigidbody> ().velocity.z < for_speed){
 			if(Input.GetKey(KeyCode.W)){
-				player.GetComponent<Transform> ().position += player.GetComponent<Transform> ().forward * player_accel * Time.deltaTime;
+				player_trans.position += player_trans.forward * player_accel * Time.deltaTime;
 			}
 
 			if(Input.GetKey(KeyCode.S)){
-				player.GetComponent<Transform> ().position += player.GetComponent<Transform> ().forward * -player_accel * Time.deltaTime;
+				player_trans.position += player_trans.forward * -player_accel * Time.deltaTime;
 			}
+		}
 
+		//APPLY TURNING AND LEANING LOGIC TO THE PLAYER OBJECT IF EITHER KEY IS
+		//BEING PRESSED.
+		if(player_script.is_leaning){
 			//ROTATION LOGIC IS APPLIED HERE.
 			if(Input.GetKey(KeyCode.D)){
-				y += 10 * rot_speed * Time.deltaTime;
+				y += rot_speed * Time.deltaTime;
+				z = -30f;
 			}
 
 			if(Input.GetKey(KeyCode.A)){
-				y += 10 * -rot_speed * Time.deltaTime;
-			}
-
-			//SET THE NEW VALUES TO THE PLAYERS POSITION AND ROTATION.
-			rot = Quaternion.Euler (0,y,0);
-			player.GetComponent<Transform> ().rotation = rot;
+				y += -rot_speed * Time.deltaTime;
+				z = 30f;
+			}					
+		}else{
+			z = 0f;
 		}
+			
+		//SET THE NEW VALUES TO THE PLAYERS POSITION AND ROTATION.
+		rot = Quaternion.Euler (0,y,z);
+		player_trans.rotation = rot;
 
 		//IF THEY RIGHT MOUSE BUTTON IS CLICKED THEN WE WANT TO SPAWN A FOLLOWER PREFAB WHERE IT HAS BEEN CLICKED.
 		if(Input.GetMouseButtonDown(1)){
@@ -69,14 +93,24 @@ public class GameControoler_CS : MonoBehaviour {
 			}
 		}
 
+		//LOGI FOR SETTING THE DISMISSAL STATUS, IF UNITS ARE DISMISSED NOTHING WILL FOLLOW THE PLAYER.
 		if(Input.GetKeyDown(KeyCode.Q)){
+			//MAKE THE DISMISSED VALUE OPPOSITE TO WHAT IT WAS BEFORE THE BUTTON WAS PRESSED.
 			player.GetComponent<Magnet_CS> ().dismissed = !player.GetComponent<Magnet_CS> ().dismissed;
 
+			//CHANGE PLAYER MATERIAL DEPENDING ON THE DISMISSED VALUE.
 			if(player.GetComponent<Magnet_CS> ().dismissed){
 				player.GetComponent<MeshRenderer> ().material = player.GetComponent<Magnet_CS> ().not_dismissed_mat;
 			}else{
 				player.GetComponent<MeshRenderer> ().material = player.GetComponent<Magnet_CS> ().dismissed_mat;
 			}
+		}
+
+		//LOGIC FOR SHOWING AND CHANGING THE CURRENT FORMATION.
+		if(Input.GetKey(KeyCode.E)){
+			player.transform.GetChild (1).GetComponent<Transform>().GetChild (0).gameObject.SetActive (true);
+		}else{
+			player.transform.GetChild (1).GetComponent<Transform>().GetChild (0).gameObject.SetActive (false);
 		}
 	}
 }
